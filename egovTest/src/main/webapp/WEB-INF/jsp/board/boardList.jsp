@@ -24,23 +24,58 @@
 	});
 	
 	function fn_selectList(pageIndex){
+		$("#pageIndex").val(pageIndex);
 		var frm = $("#searchFrm").serialize();
 		$.ajax({
 		    url: '/board/selectBoardList.do',
 		    method: 'post',
 		    data : frm,
 		    dataType : 'json',
-		    success: function (data, status, xhr) {
-		    	
+   			 success: function (data, status, xhr) {
+		    	var boardHtml = '';
+		    	if(data.list.length >0){
+		    		for(var i=0; i<data.list.length; i++){
+		    			
+		    			boardHtml +='<tr>';	
+		    			boardHtml +='<td>';
+		    			boardHtml +=data.list[i].rnum;
+		    			boardHtml +='</td>';
+		    			boardHtml +='<td>';
+		    			boardHtml +='<a href="javascript:fn_detail(\''+data.list[i].boardIdx+'\');">';
+		    			boardHtml +=data.list[i].boardTitle;
+		    			boardHtml +='</td>';
+		    			boardHtml +='<td>';
+						boardHtml +=data.list[i].createId;
+						boardHtml +='</td>';
+						boardHtml +='<td>';
+						boardHtml +=data.list[i].createDate;
+						boardHtml +='</td>';
+						boardHtml +='</tr>';
+			
+		    		}
+		    	}else{
+		    		boardHtml += '<tr>';
+		    		boardHtml += '<td colspan="4" style="text-align:center;">조회된 결과가 없습니다.</td>';
+		    		boardhtml +='</tr>'
+		    	}
+	    	
+		    	$("#tbody").html(boardHtml);
+		    	fn_paging(data.paginationInfo);
 		    },
 		    error: function (data, status, err) {
 		    	console.log(err);
 		    }
 		});
-	}
-	
+	} 
+ 	
 	function fn_detail(boardIdx){
-
+		/* 화면전환 frm */
+		$("#boardIdx").val(boardIdx);
+		var frm = $("#boardFrm");
+		frm.attr("action", "/board/boardDetail.do");
+		frm.submit();
+		/* 컨트롤러 */
+		
 	}
 	
 	function fn_insert(){ 
@@ -115,7 +150,7 @@
 					<input type="text" id="searchKeyword" name="searchKeyword" class="txt"/>
 				</li>
 				<li>
-					<input type="button" id="btn_search" name="btn_search" value="검색" class="btn_blue_l"/>
+					<input type="button" id="btn_searchs" name="btn_search" value="검색" class="btn_blue_l"/>
 				</li>
 			</ul>
 		</form>
@@ -150,4 +185,5 @@
 	<div id="paging" >
 	</div>
 </body>
-</html> 
+</html>  
+
