@@ -12,6 +12,8 @@ public interface BoardService {
 	public int saveBoard(HashMap<String, Object> paramMap);
 
 	public HashMap<String, Object> selectBoardDetail(int boardIdx);
+
+	public int deleteBoard(HashMap<String, Object> paramMap);
 	
 	
 

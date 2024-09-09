@@ -19,6 +19,7 @@
 		        date_format(create_date, '%Y-%M-%d %H:%i:%s') as updateDate
 		from tb_board, (select @rownum:=0 from dual) R
 		where 1=1
+		AND use_yn = 'Y'
 		<if test="searchKeyword != '' and searchKeyword != null and searchKeyword != 'undefined'">
 			<if test="searchCondition == 'id'">				
 				AND create_id like concat('%',#{searchKeyword},'%')			
@@ -36,6 +37,7 @@
 		select count(board_idx)
 		from tb_board
 		where 1=1
+		AND use_yn = 'Y'
 		<if test="searchKeyword != '' and searchKeyword != null and searchKeyword != 'undefined'">
 			<if test="searchCondition == 'id'">				
 				AND create_id = #{searchKeyword}			
@@ -70,6 +72,13 @@
 	
 	<update id="updateBoard" parameterType="java.util.HashMap">
 		
+		UPDATE tb_board 
+		SET board_title = #{boardTitle},
+			board_content = #{boardContent},
+			update_id = #{memberId},
+			update_date = CURRENT_TIMESTAMP()
+			WHERE board_idx = #{boardIdx}
+		
 	</update>
 	
 	
@@ -78,16 +87,25 @@
 		select
 				board_idx AS boardIdx,
 				board_title AS boardTitle,
-				board_content AS boardContent
+				board_content AS boardContent,
 				file_group_idx AS fileGrouspIdx,
 				create_id AS createId,
-				date_format(create_date, '%Y-%M-%d %H:%i:%s') as createDate,
+				date_format(create_date, '%Y-%m-%d %H:%i:%s') as createDate,
 		        update_id AS updateId,
-		        date_format(create_date, '%Y-%M-%d %H:%i:%s') as updateDate
+		        date_format(create_date, '%Y-%m-%d %H:%i:%s') as updateDate
 		from tb_board
 		WHERE board_idx = #{boardIdx}
 	
 	
 	</select>
 
+	<update id="deleteBoard" parameterType="java.util.HashMap">
+	
+	update tb_board
+            set use_yn = 'N',
+				update_id = #{memberId},
+				update_date = CURRENT_TIMESTAMP()
+                WHERE board_idx = #{boardIdx}
+
+	</update>
 </mapper>

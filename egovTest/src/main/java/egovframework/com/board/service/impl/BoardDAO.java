@@ -32,4 +32,9 @@ public class BoardDAO extends EgovAbstractMapper{
 				
 	}
 
+	public int deleteBoard(HashMap<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return update("deleteBoard", paramMap);
+	}
+
 }
