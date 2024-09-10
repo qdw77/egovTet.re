@@ -37,4 +37,14 @@ public class BoardDAO extends EgovAbstractMapper{
 		return update("deleteBoard", paramMap);
 	}
 
+	
+	public int insertReply(HashMap<String, Object> paramMap) {
+		return insert("insertReply", paramMap);
+				
+	}
+	
+// 한권은 HashMap 여러권이 나올 경우에는 list HashMap
+	public List<HashMap<String, Object>> selectBoardReply(HashMap<String, Object> paramMap){
+		return selectList("selectBoardReply", paramMap);
+	}
 }
