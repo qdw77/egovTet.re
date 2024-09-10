@@ -191,7 +191,7 @@
 		    success: function (data, status, xhr) {
 		    	if(data.resultChk > 0){
 		    		alert("삭제되었습니다.");
-		    		fn_getReply(boardIdx);
+		    		fn_getReply("${boardIdx}");
 		    	}else{
 		    		alert("삭제에 실패하였습니다.");
 		    	}
