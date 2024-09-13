@@ -65,6 +65,14 @@
     <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="2"
 	    p:viewClass="org.springframework.web.servlet.view.JstlView"
 	    p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
+	    
+	    <!-- 파일 업로드 설정 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+      <property name="maxUploadSize" value="52428800" />
+      <property name="maxInMemorySize" value="1000000" />
+      <property name="defaultEncoding" value="utf-8" />
+   </bean>
+	<!-- 파일 업로드 설정 -->
 
     <!-- For Pagination Tag -->
     <bean id="imageRenderer" class="egovframework.com.cmmn.web.EgovImgPaginationRenderer"/>
